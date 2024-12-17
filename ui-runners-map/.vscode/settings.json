@@ -1,0 +1,27 @@
+{
+  "cSpell.words": [
+    "centerlat",
+    "centerlng",
+    "chartjs",
+    "clsx",
+    "daisyui",
+    "datepicker",
+    "endx",
+    "endy",
+    "EPSG",
+    "jibun",
+    "latlng",
+    "mypage",
+    "partialize",
+    "polylines",
+    "startx",
+    "starty",
+    "tailwindcss",
+    "tanstack",
+    "Tmap",
+    "Tmapv",
+    "toastify",
+    "zustand"
+  ],
+  "typescript.validate.enable": false
+}
