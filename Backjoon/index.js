@@ -1,15 +1,18 @@
 let input = require('fs')
   .readFileSync('C:/Users/ckswj/Desktop/Zerobase/Backjoon/example.txt', 'utf-8')
   .toString()
-  .split(' ');
+  .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().split(' ');
 
-const a = input[0];
-const b = input[1];
-const c = input[2];
+const clock = input[0].toString().split(' ');
 
-console.log(`|\\_/|
-|q p|   /}
-( 0 )"""\
-|"^"\`    |
-||_/=\\\\__|`);
+const a = Number(clock[0]);
+const b = Number(clock[1]);
+const c = Number(input[1]);
+
+const hour = Math.trunc((b + c) / 60);
+const minute = (b + c) % 60;
+
+if (a + hour >= 24) {
+  console.log(24 - (a + hour), minute);
+} else console.log(a + hour, minute);
