@@ -1,31 +1,31 @@
-function solution(n, computers) {
-  let visited = new Array(n).fill(false);
+function solution(begin, target, words) {
+  if (!words.includes(target)) return 0;
 
-  let networkCount = 0;
+  const compareWords = (word1, word2) => {
+    let count = 0;
+    for (let i = 0; i < word1.length; i++) {
+      if (word1[i] !== word2[i]) count += 1;
+      if (count > 1) return false;
+    }
+    return count === 1;
+  };
 
-  function DFS(node) {
-    visited[node] = true;
+  let queue = [[begin, 0]];
+  let visited = new Set();
 
-    for (let i = 0; i < n; i++) {
-      if (computers[node][i] === 1 && !visited[i]) {
-        DFS(i);
+  while (queue.length) {
+    const [current, steps] = queue.shift();
+    if (current === target) return steps;
+
+    for (const word of words) {
+      if (!visited.has(word) && compareWords(current, word)) {
+        visited.add(word);
+        queue.push([word, steps + 1]);
       }
     }
   }
-
-  for (let i = 0; i < n; i++) {
-    if (!visited[i]) {
-      DFS(i);
-      networkCount += 1;
-    }
-  }
-  return networkCount;
+  return 0;
 }
 
-console.log(
-  solution(3, [
-    [1, 1, 0],
-    [1, 1, 0],
-    [0, 0, 1]
-  ])
-);
+console.log(solution('hit', 'cog', ['hot', 'dot', 'dog', 'lot', 'log', 'cog'])); // 4
+console.log(solution('hit', 'cog', ['hot', 'dot', 'dog', 'lot', 'log'])); // 0
