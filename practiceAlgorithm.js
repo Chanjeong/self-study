@@ -1,31 +1,30 @@
-function solution(begin, target, words) {
-  if (!words.includes(target)) return 0;
-
-  const compareWords = (word1, word2) => {
-    let count = 0;
-    for (let i = 0; i < word1.length; i++) {
-      if (word1[i] !== word2[i]) count += 1;
-      if (count > 1) return false;
-    }
-    return count === 1;
-  };
-
-  let queue = [[begin, 0]];
-  let visited = new Set();
-
-  while (queue.length) {
-    const [current, steps] = queue.shift();
-    if (current === target) return steps;
-
-    for (const word of words) {
-      if (!visited.has(word) && compareWords(current, word)) {
-        visited.add(word);
-        queue.push([word, steps + 1]);
-      }
+function solution(A, B) {
+  let cate = [];
+  let recommend = new Set();
+  for (let i = 0; i < A.length; i++) {
+    const [category, broadcast] = A[i];
+    if (broadcast === B[0]) {
+      cate.push(category);
     }
   }
-  return 0;
+  for (let i = 0; i < A.length; i++) {
+    const [category, broadcast] = A[i];
+    if (broadcast !== B[0] && cate.includes(category)) recommend.add(broadcast);
+  }
+
+  return Array.from(recommend).length + 1;
 }
 
-console.log(solution('hit', 'cog', ['hot', 'dot', 'dog', 'lot', 'log', 'cog'])); // 4
-console.log(solution('hit', 'cog', ['hot', 'dot', 'dog', 'lot', 'log'])); // 0
+console.log(
+  solution(
+    [
+      ['Game', 'broadcast1'],
+      ['Sport', 'broadcast1'],
+      ['Vlog', 'broadcast1'],
+      ['Game', 'broadcast2'],
+      ['Sport', 'broadcast3'],
+      ['Vlog', 'broadcast4']
+    ],
+    ['broadcast1']
+  )
+);
