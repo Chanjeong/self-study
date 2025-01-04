@@ -1,12 +1,9 @@
 let input = require('fs')
   .readFileSync('C:/Users/ckswj/Desktop/Zerobase/Backjoon/example.txt', 'utf-8')
   .toString()
-  .split('\r\n');
-// let input = require('fs').readFileSync('/dev/stdin').toString().split(' ');
+  .split(' ');
+// let input = require('fs').readFileSync('/dev/stdin').toString().split('\n');
 
-for (let i = 0; i < input.length; i++) {
-  if (input[i].split(' ').length === 1) {
-    continue;
-  }
-  console.log(Number(input[i].split(' ')[0]) + Number(input[i].split(' ')[1]));
+for (let i = 1; i <= Number(input); i++) {
+  console.log(' '.repeat(Number(input) - i) + '*'.repeat(i));
 }
