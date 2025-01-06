@@ -1,5 +1,15 @@
-function solution(str, i) {
-  return str[i - 1];
+function solution(n) {
+  const MOD = 1234567;
+  let a = 0;
+  let b = 1;
+
+  for (let i = 2; i <= n; i++) {
+    let temp = (a + b) % MOD;
+    a = b;
+    b = temp;
+  }
+
+  return b;
 }
 
-console.log(solution('Sprout', 3));
+console.log(solution(5));
