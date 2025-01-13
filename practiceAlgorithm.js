@@ -1,15 +1,12 @@
-function solution(n) {
-  const MOD = 1234567;
-  let a = 0;
-  let b = 1;
-
-  for (let i = 2; i <= n; i++) {
-    let temp = (a + b) % MOD;
-    a = b;
-    b = temp;
+function solution(w, h) {
+  function gcb(a, b) {
+    return b === 0 ? a : gcb(b, a % b);
   }
 
-  return b;
+  const totalSquare = w * h;
+  const trash = w + h - gcb(w, h);
+
+  return totalSquare - trash;
 }
 
-console.log(solution(5));
+console.log(solution(8, 12));
