@@ -5,6 +5,10 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-for (let i = 0; i < input.length; i++) {
-  console.log(input[i]);
+const croatia = ['c=', 'c-', 'dz=', 'd-', 'lj', 'nj', 's=', 'z='];
+const word = input[0];
+
+for (let i = 0; i < croatia.length; i++) {
+  word.replaceAll(croatia[i], '@');
 }
+console.log(word);
