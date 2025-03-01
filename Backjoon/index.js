@@ -5,22 +5,9 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-const arr = Array.from(Array(100), () => Array(100).fill(0));
-let count = 0;
+// 4 -> 4**2개 정사각형 -> 4**3개의 정사각형
+//4+5 -> (4+5)+(4*4**1) -> 전의 갯수 + (4* 4**n-1)
 
-for (let i = 1; i < input.length; i++) {
-  const [startX, startY] = input[i].trim().split(' ').map(Number);
-
-  for (let l = 0; l < 10; l++) {
-    for (let m = 0; m < 10; m++) {
-      if (arr[startX + l][startY + m] !== 0) {
-        continue;
-      }
-      if (arr[startX + l][startY + m] === 0) {
-        arr[startX + l][startY + m] = 1;
-        count += 1;
-      }
-    }
-  }
-}
-console.log(count);
+const num = +input[0];
+const side = Math.pow(2, num) + 1;
+console.log(side * side);
