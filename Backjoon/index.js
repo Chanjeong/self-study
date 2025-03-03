@@ -5,9 +5,16 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-// 4 -> 4**2개 정사각형 -> 4**3개의 정사각형
-//4+5 -> (4+5)+(4*4**1) -> 전의 갯수 + (4* 4**n-1)
+let row = 1;
+let num = +input[0];
 
-const num = +input[0];
-const side = Math.pow(2, num) + 1;
-console.log(side * side);
+while (num - row > 0) {
+  num = num - row;
+  row += 1;
+}
+
+if (row % 2 === 1) {
+  console.log(`${row + 1 - num}/${num}`);
+} else {
+  console.log(`${num}/${row + 1 - num}`);
+}
