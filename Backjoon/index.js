@@ -5,23 +5,24 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-for (let i = 0; i < input.length; i++) {
-  const A = +input[i];
-  let count = 1;
-  let res = [];
-  if (A === -1) continue;
-  while (count <= A / 2) {
-    if (A % count === 0) res.push(count);
-    count += 1;
+let [A, B] = input.map(Number);
+
+function isPrime(n) {
+  if (n < 2) return false; // 1은 소수가 아님
+  for (let i = 2; i * i <= n; i++) {
+    if (n % i === 0) return false;
   }
-  const total = res.reduce((acc, cum) => acc + cum, 0);
-  if (total === A) {
-    let ans = `${A} = `;
-    for (let i = 0; i < res.length; i++) {
-      ans += `${res[i]} + `;
-    }
-    console.log(ans.slice(0, ans.length - 3));
-  } else {
-    console.log(`${A} is NOT perfect.`);
-  }
+  return true;
+}
+
+let res = [];
+for (let i = A; i <= B; i++) {
+  if (isPrime(i)) res.push(i);
+}
+
+if (res.length === 0) {
+  console.log(-1);
+} else {
+  console.log(res.reduce((acc, cum) => acc + cum, 0));
+  console.log(res[0]);
 }
