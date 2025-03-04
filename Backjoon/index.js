@@ -5,16 +5,23 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-let row = 1;
-let num = +input[0];
-
-while (num - row > 0) {
-  num = num - row;
-  row += 1;
-}
-
-if (row % 2 === 1) {
-  console.log(`${row + 1 - num}/${num}`);
-} else {
-  console.log(`${num}/${row + 1 - num}`);
+for (let i = 0; i < input.length; i++) {
+  const A = +input[i];
+  let count = 1;
+  let res = [];
+  if (A === -1) continue;
+  while (count <= A / 2) {
+    if (A % count === 0) res.push(count);
+    count += 1;
+  }
+  const total = res.reduce((acc, cum) => acc + cum, 0);
+  if (total === A) {
+    let ans = `${A} = `;
+    for (let i = 0; i < res.length; i++) {
+      ans += `${res[i]} + `;
+    }
+    console.log(ans.slice(0, ans.length - 3));
+  } else {
+    console.log(`${A} is NOT perfect.`);
+  }
 }
