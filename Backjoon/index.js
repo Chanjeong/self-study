@@ -5,7 +5,12 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-const [num, ...boardLines] = [...input].map(el => el.trim());
-const [a, b] = num.split(' ').map(Number);
-const board = boardLines.map(line => line.split(''));
-console.log(board);
+let arr = [];
+for (let i = 1; i < input.length; i++) {
+  arr.push(+input[i].trim());
+}
+
+arr.sort((a, b) => a - b);
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
