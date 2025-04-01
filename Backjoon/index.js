@@ -5,12 +5,16 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-let arr = [];
-for (let i = 1; i < input.length; i++) {
-  arr.push(input[i].trim().split(' ').map(Number));
+let arr = input[1].split(' ').map(Number);
+
+let sorted = Array.from(new Set(arr)).sort();
+
+const hash = {};
+for (let i = 0; i < sorted.length; i++) {
+  hash[sorted[i]] = i;
 }
-arr.sort(([a, b], [c, d]) => a - c || b - d);
 
 for (let i = 0; i < arr.length; i++) {
-  console.log(arr[i].join(' '));
+  arr[i] = hash[arr[i]];
 }
+console.log(arr.join(' '));
