@@ -5,16 +5,21 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-let arr = input[1].split(' ').map(Number);
+const [N, M] = input[0].trim().split(' ').map(Number);
 
-let sorted = Array.from(new Set(arr)).sort();
+const name = {};
+const num = {};
 
-const hash = {};
-for (let i = 0; i < sorted.length; i++) {
-  hash[sorted[i]] = i;
-}
+input.slice(1, N + 1).forEach((p, i) => {
+  name[p.trim()] = i + 1;
+  num[i + 1] = p.trim();
+});
 
-for (let i = 0; i < arr.length; i++) {
-  arr[i] = hash[arr[i]];
-}
-console.log(arr.join(' '));
+const result = input.slice(N + 1, N + M + 1).map(p => {
+  if (isNaN(+p)) {
+    return name[p.trim()];
+  } else {
+    return num[+p];
+  }
+});
+console.log(result.join('\n'));
