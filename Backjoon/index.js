@@ -5,21 +5,14 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-const [N, M] = input[0].trim().split(' ').map(Number);
+let s = input[0].split('');
 
-const name = {};
-const num = {};
+let substrings = new Set();
 
-input.slice(1, N + 1).forEach((p, i) => {
-  name[p.trim()] = i + 1;
-  num[i + 1] = p.trim();
-});
-
-const result = input.slice(N + 1, N + M + 1).map(p => {
-  if (isNaN(+p)) {
-    return name[p.trim()];
-  } else {
-    return num[+p];
+for (let i = 0; i < s.length; i++) {
+  for (let j = i + 1; j <= s.length; j++) {
+    substrings.add(s.slice(i, j).join(''));
   }
-});
-console.log(result.join('\n'));
+}
+
+console.log(substrings.size);
