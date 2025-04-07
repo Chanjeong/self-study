@@ -5,24 +5,28 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-function gcd(a, b) {
-  while (b !== 0) {
-    [a, b] = [b, a % b];
+const MAX = 1000000;
+
+const isPrime = Array(MAX + 1).fill(true);
+isPrime[0] = false;
+isPrime[1] = false;
+
+for (let i = 2; i * i <= MAX; i++) {
+  if (isPrime[i]) {
+    for (let j = i * i; j <= MAX; j += i) {
+      isPrime[j] = false;
+    }
   }
-  return a;
 }
 
-let res = [];
-for (let i = 1; i < input.length - 1; i++) {
-  res.push(+input[i + 1] - +input[i]);
+for (let i = 1; i < input.length; i++) {
+  const num = +input[i];
+  let count = 0;
+  for (let a = 2; a <= num / 2; a++) {
+    const b = num - a;
+    if (isPrime[a] && isPrime[b]) {
+      count += 1;
+    }
+  }
+  console.log(count);
 }
-
-let commonGcd = res[0];
-for (let i = 1; i < res.length; i++) {
-  commonGcd = gcd(commonGcd, res[i]);
-}
-let ans = 0;
-for (let i = 0; i < res.length; i++) {
-  ans += res[i] / commonGcd - 1;
-}
-console.log(ans);
