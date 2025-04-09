@@ -5,28 +5,22 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-const MAX = 1000000;
-
-const isPrime = Array(MAX + 1).fill(true);
-isPrime[0] = false;
-isPrime[1] = false;
-
-for (let i = 2; i * i <= MAX; i++) {
-  if (isPrime[i]) {
-    for (let j = i * i; j <= MAX; j += i) {
-      isPrime[j] = false;
-    }
-  }
-}
-
 for (let i = 1; i < input.length; i++) {
-  const num = +input[i];
-  let count = 0;
-  for (let a = 2; a <= num / 2; a++) {
-    const b = num - a;
-    if (isPrime[a] && isPrime[b]) {
-      count += 1;
+  const vps = input[i].trim();
+  let stack = [];
+  let isValid = true;
+
+  for (const char of vps) {
+    if (char === '(') stack.push(char);
+    else {
+      if (stack.length > 0) {
+        stack.pop();
+      } else {
+        isValid = false;
+        break;
+      }
     }
   }
-  console.log(count);
+  if (stack.length > 0) isValid = false;
+  console.log(isValid ? 'YES' : 'NO');
 }
