@@ -5,22 +5,23 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-for (let i = 1; i < input.length; i++) {
-  const vps = input[i].trim();
-  let stack = [];
-  let isValid = true;
+let stack = [];
+let line = input[1].split(' ').map(Number);
 
-  for (const char of vps) {
-    if (char === '(') stack.push(char);
-    else {
-      if (stack.length > 0) {
-        stack.pop();
-      } else {
-        isValid = false;
-        break;
-      }
-    }
+let order = 1;
+
+while (line.length > 0 || stack.length > 0) {
+  if (line[0] === order) {
+    line.shift();
+    order += 1;
+  } else if (stack[stack.length - 1] === order) {
+    stack.pop();
+    order += 1;
+  } else if (line.length > 0) {
+    stack.push(line.shift());
+  } else {
+    console.log('Sad');
+    return;
   }
-  if (stack.length > 0) isValid = false;
-  console.log(isValid ? 'YES' : 'NO');
 }
+console.log('Nice');
