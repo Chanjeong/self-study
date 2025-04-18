@@ -5,20 +5,14 @@ let input = require('fs')
   .split('\n');
 // let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-class Node {
-  constructor(value) {
-    this.value = value;
-    this.prev = null;
-    this.next = null;
-  }
+const memo = Array.from({ length: 31 }, () => Array(31).fill(0));
+
+function combination(n, r) {
+  if (memo[n][r]) return memo[n][r];
+  if (n === r || r === 0) return 1;
+  return (memo[n][r] = combination(n - 1, r - 1) + combination(n - 1, r));
 }
-
-class Deque {
-  constructor() {
-    this.head = null;
-    this.tail = null;
-    this.length = 0;
-  }
-
-  push_front(value) {}
+for (let i = 1; i < input.length; i++) {
+  const [N, M] = input[i].trim().split(' ').map(Number);
+  console.log(combination(M, N));
 }
