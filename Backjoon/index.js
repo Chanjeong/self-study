@@ -5,23 +5,25 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");
 
-const n = +input[0];
-let moves = [];
-let count = 0;
+const [N, M] = input[0].trim().split(' ').map(Number);
 
-function hanoi(n, from, to, aux) {
-  if (n === 1) {
-    count += 1;
-    moves.push(`${from} ${to}`);
+const visited = new Array(N + 1).fill(false);
+
+function backTracking(path) {
+  if (path.length === M) {
+    console.log(path.join(' '));
     return;
   }
 
-  hanoi(n - 1, from, aux, to);
-  moves.push(`${from} ${to}`);
-  count += 1;
-  hanoi(n - 1, aux, to, from);
+  for (let i = 1; i <= N; i++) {
+    if ((!visited[i] && path[path.length - 1] < i) || path.length === 0) {
+      visited[i] = true;
+      path.push(i);
+      backTracking(path);
+      path.pop();
+      visited[i] = false;
+    }
+  }
 }
 
-hanoi(n, 1, 3, 2);
-console.log(count);
-console.log(moves.join('\n'));
+backTracking([]);
