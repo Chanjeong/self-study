@@ -5,25 +5,36 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");
 
-const [N, M] = input[0].trim().split(' ').map(Number);
+function solveNQueens(n) {
+  let count = 0;
 
-const visited = new Array(N + 1).fill(false);
+  const cols = new Array(n).fill(false); // 열에 퀸이 있는지
+  const diag1 = new Array(2 * n - 1).fill(false); // ↘ 대각선 (row + col)
+  const diag2 = new Array(2 * n - 1).fill(false); // ↙ 대각선 (row - col + n - 1)
 
-function backTracking(path) {
-  if (path.length === M) {
-    console.log(path.join(' '));
-    return;
-  }
+  function backtrack(row) {
+    if (row === n) {
+      count++;
+      return;
+    }
 
-  for (let i = 1; i <= N; i++) {
-    if ((!visited[i] && path[path.length - 1] < i) || path.length === 0) {
-      visited[i] = true;
-      path.push(i);
-      backTracking(path);
-      path.pop();
-      visited[i] = false;
+    for (let col = 0; col < n; col++) {
+      if (cols[col] || diag1[row + col] || diag2[row - col + n - 1]) continue;
+
+      cols[col] = true;
+      diag1[row + col] = true;
+      diag2[row - col + n - 1] = true;
+
+      backtrack(row + 1);
+
+      cols[col] = false;
+      diag1[row + col] = false;
+      diag2[row - col + n - 1] = false;
     }
   }
+
+  backtrack(0);
+  return count;
 }
 
-backTracking([]);
+console.log(solveNQueens(+input[0]));
