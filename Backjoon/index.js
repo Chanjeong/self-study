@@ -5,36 +5,35 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");
 
-function solveNQueens(n) {
-  let count = 0;
+const number = input[1].trim().split(' ').map(Number);
+const calc = input[2].trim().split(' ').map(Number);
 
-  const cols = new Array(n).fill(false); // 열에 퀸이 있는지
-  const diag1 = new Array(2 * n - 1).fill(false); // ↘ 대각선 (row + col)
-  const diag2 = new Array(2 * n - 1).fill(false); // ↙ 대각선 (row - col + n - 1)
+let max = -Infinity;
+let min = Infinity;
 
-  function backtrack(row) {
-    if (row === n) {
-      count++;
-      return;
-    }
-
-    for (let col = 0; col < n; col++) {
-      if (cols[col] || diag1[row + col] || diag2[row - col + n - 1]) continue;
-
-      cols[col] = true;
-      diag1[row + col] = true;
-      diag2[row - col + n - 1] = true;
-
-      backtrack(row + 1);
-
-      cols[col] = false;
-      diag1[row + col] = false;
-      diag2[row - col + n - 1] = false;
-    }
+function dfs(idx, currentResult, plus, minus, multiply, divide) {
+  if (idx === number.length) {
+    max = Math.max(currentResult, max);
+    min = Math.min(currentResult, min);
+    return;
   }
 
-  backtrack(0);
-  return count;
+  const nextNumber = number[idx];
+  if (plus > 0)
+    dfs(idx + 1, currentResult + nextNumber, plus - 1, minus, multiply, divide);
+  if (minus > 0)
+    dfs(idx + 1, currentResult - nextNumber, plus, minus - 1, multiply, divide);
+  if (multiply > 0)
+    dfs(idx + 1, currentResult * nextNumber, plus, minus, multiply - 1, divide);
+  if (divide > 0) {
+    // 나눗셈 처리: C++14 방식
+    const temp =
+      currentResult < 0
+        ? -Math.trunc(Math.abs(currentResult) / nextNumber)
+        : Math.floor(currentResult / nextNumber);
+    dfs(idx + 1, temp, plus, minus, multiply, divide - 1);
+  }
 }
-
-console.log(solveNQueens(+input[0]));
+dfs(1, number[0], ...calc);
+console.log(max);
+console.log(min);
