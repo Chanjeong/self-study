@@ -5,35 +5,32 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");
 
-const number = input[1].trim().split(' ').map(Number);
-const calc = input[2].trim().split(' ').map(Number);
+const [N, A, operator] = input.map(v => v.split(' ').map(Number));
+
+const calculator = [
+  (a, b) => a + b,
+  (a, b) => a - b,
+  (a, b) => a * b,
+  (a, b) => ~~(a / b)
+];
 
 let max = -Infinity;
 let min = Infinity;
 
-function dfs(idx, currentResult, plus, minus, multiply, divide) {
-  if (idx === number.length) {
-    max = Math.max(currentResult, max);
-    min = Math.min(currentResult, min);
+const dfs = (count = 0, result = A[0]) => {
+  if (count === N - 1) {
+    max = Math.max(result, max);
+    min = Math.min(result, min);
     return;
   }
-
-  const nextNumber = number[idx];
-  if (plus > 0)
-    dfs(idx + 1, currentResult + nextNumber, plus - 1, minus, multiply, divide);
-  if (minus > 0)
-    dfs(idx + 1, currentResult - nextNumber, plus, minus - 1, multiply, divide);
-  if (multiply > 0)
-    dfs(idx + 1, currentResult * nextNumber, plus, minus, multiply - 1, divide);
-  if (divide > 0) {
-    // 나눗셈 처리: C++14 방식
-    const temp =
-      currentResult < 0
-        ? -Math.trunc(Math.abs(currentResult) / nextNumber)
-        : Math.floor(currentResult / nextNumber);
-    dfs(idx + 1, temp, plus, minus, multiply, divide - 1);
+  for (let i = 0; i < 4; i++) {
+    if (!operator[i]) continue;
+    operator[i]--;
+    dfs(count + 1, calculator[i](result, A[count + 1]));
+    operator[i]++;
   }
-}
-dfs(1, number[0], ...calc);
+};
+
+dfs();
 console.log(max);
 console.log(min);
