@@ -4,23 +4,28 @@ let input = require('fs')
   .trim()
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");
-const [N, K] = input[0].trim().split(' ').map(Number);
+
+const [N, M] = input[0].split(' ').map(Number);
+const array = input[1]
+  .split(' ')
+  .map(Number)
+  .sort((a, b) => a - b);
 
 let result = [];
-function dfs(depth, ones) {
-  if (depth === N) {
-    console.log(result.join(''));
+let output = [];
+
+function dfs(depth, start) {
+  if (depth === M) {
+    output.push(result.join(' '));
     return;
   }
 
-  result.push('0');
-  dfs(depth + 1, ones);
-  result.pop();
-  if (ones < K) {
-    result.push('1');
-    dfs(depth + 1, ones + 1);
+  for (let i = start; i < N; i++) {
+    result.push(array[i]);
+    dfs(depth + 1, i);
     result.pop();
   }
 }
 
 dfs(0, 0);
+console.log(output.join('\n'));
