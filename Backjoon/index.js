@@ -5,16 +5,28 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");
 
-let col = +input[0];
-let row = 1;
-while (col - row > 0) {
-  col = col - row;
-  row += 1;
+const n = +input[0];
+const student = input.slice(1).map(st => st.trim().split(' ').map(Number));
+
+let max = -1;
+let result;
+
+for (let i = 0; i < student.length; i++) {
+  let count = 0;
+  for (let j = 0; j < student.length; j++) {
+    for (let k = 0; k < n; k++) {
+      if (i === j) continue;
+
+      if (student[i][k] === student[j][k]) {
+        count += 1;
+        break;
+      }
+    }
+  }
+  if (count > max) {
+    max = count;
+    result = i + 1;
+  }
 }
 
-//col은 그 대각선 안에서의 위치로 바뀌게 됨
-if (row % 2 === 1) {
-  console.log(`${row + 1 - col}/${col}`);
-} else {
-  console.log(`${col}/${row + 1 - col}`);
-}
+console.log(result);
