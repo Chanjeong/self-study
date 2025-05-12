@@ -5,18 +5,17 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");
 
-const n = +input[0];
-const student = input.slice(1).map(st => st.trim().split(' ').map(Number));
+const N = +input[0];
 
-let max = -1;
-let result;
+const student = input.slice(1).map(s => s.trim().split(' '));
 
-for (let i = 0; i < student.length; i++) {
+let max = -Infinity;
+let result = 0;
+for (let i = 0; i < N; i++) {
   let count = 0;
-  for (let j = 0; j < student.length; j++) {
-    for (let k = 0; k < n; k++) {
+  for (let j = 0; j < N; j++) {
+    for (let k = 0; k < 5; k++) {
       if (i === j) continue;
-
       if (student[i][k] === student[j][k]) {
         count += 1;
         break;
@@ -28,5 +27,4 @@ for (let i = 0; i < student.length; i++) {
     result = i + 1;
   }
 }
-
 console.log(result);
