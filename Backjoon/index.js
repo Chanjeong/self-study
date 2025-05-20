@@ -3,10 +3,11 @@ let input = require('fs')
   .toString()
   .trim()
   .split('\n');
-// let input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");
+// let input = require("fs").readFileSync("/dev/stdin").toString().trim();
 
 const board = input[0].split('.');
-let result = '';
+let result = [];
+
 for (let i = 0; i < board.length; i++) {
   const segment = board[i];
   const len = segment.length;
@@ -16,12 +17,12 @@ for (let i = 0; i < board.length; i++) {
     return;
   }
 
-  if (len === 0) result += '.';
-
   const aCount = Math.floor(len / 4);
   const bCount = (len % 4) / 2;
 
-  result += 'AAAA'.repeat(aCount) + 'BB'.repeat(bCount);
-  if (len !== 0) result += '.';
+  result.push('AAAA'.repeat(aCount) + 'BB'.repeat(bCount));
 }
+
+// .으로 이어붙이기 (원래 있던 점들을 보존함)
 console.log(result);
+console.log(result.join('.'));
