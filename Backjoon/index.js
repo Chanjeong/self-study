@@ -3,26 +3,18 @@ let input = require('fs')
   .toString()
   .trim()
   .split('\n');
-// let input = require("fs").readFileSync("/dev/stdin").toString().trim();
+// let input = require("fs").readFileSync("/dev/stdin").toString().trim().split('\n');
 
-const board = input[0].split('.');
-let result = [];
+let num = input[0];
+n = num;
+let count = 0;
+if (+num < 10) num = '0' + num;
 
-for (let i = 0; i < board.length; i++) {
-  const segment = board[i];
-  const len = segment.length;
-
-  if (len % 2 !== 0) {
-    console.log(-1);
-    return;
-  }
-
-  const aCount = Math.floor(len / 4);
-  const bCount = (len % 4) / 2;
-
-  result.push('AAAA'.repeat(aCount) + 'BB'.repeat(bCount));
+while (true) {
+  let [first, second] = num.split('').map(Number);
+  let sum = first + second;
+  num = String(second) + String(sum)[String(sum).length - 1];
+  count += 1;
+  if (+n === +num) break;
 }
-
-// .으로 이어붙이기 (원래 있던 점들을 보존함)
-console.log(result);
-console.log(result.join('.'));
+console.log(count);
