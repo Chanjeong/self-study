@@ -5,16 +5,24 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split('\n');
 
-let num = input[0];
-n = num;
-let count = 0;
-if (+num < 10) num = '0' + num;
+let idx = 0;
+let scenarioNum = 1;
 
 while (true) {
-  let [first, second] = num.split('').map(Number);
-  let sum = first + second;
-  num = String(second) + String(sum)[String(sum).length - 1];
-  count += 1;
-  if (+n === +num) break;
+  const n = parseInt(input[idx]);
+  if (n === 0) break;
+
+  const names = input.slice(idx + 1, idx + 1 + n);
+  const count = new Array(n).fill(0);
+
+  for (let i = idx + 1 + n; i < idx + 1 + n + (2 * n - 1); i++) {
+    const num = parseInt(input[i].split(' ')[0]);
+    count[num - 1]++;
+  }
+
+  const lostIdx = count.findIndex(c => c === 1);
+  console.log(`${scenarioNum} ${names[lostIdx]}`);
+
+  idx = idx + 1 + n + (2 * n - 1);
+  scenarioNum++;
 }
-console.log(count);
