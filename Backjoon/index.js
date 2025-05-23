@@ -5,24 +5,36 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split('\n');
 
-let idx = 0;
-let scenarioNum = 1;
-
+let index = 0;
+let groupNum = 1;
+let group = [];
+let scoreGroup = [];
+let count = 0;
 while (true) {
-  const n = parseInt(input[idx]);
+  let n = parseInt(input[index]);
+
   if (n === 0) break;
 
-  const names = input.slice(idx + 1, idx + 1 + n);
-  const count = new Array(n).fill(0);
-
-  for (let i = idx + 1 + n; i < idx + 1 + n + (2 * n - 1); i++) {
-    const num = parseInt(input[i].split(' ')[0]);
-    count[num - 1]++;
+  for (let i = index + 1; i < index + 1 + n; i++) {
+    const [student, ...score] = input[i].trim().split(' ');
+    group.push(student);
+    scoreGroup.push(score);
   }
-
-  const lostIdx = count.findIndex(c => c === 1);
-  console.log(`${scenarioNum} ${names[lostIdx]}`);
-
-  idx = idx + 1 + n + (2 * n - 1);
-  scenarioNum++;
+  console.log(`Group ${groupNum}`);
+  for (let i = 0; i < scoreGroup.length; i++) {
+    for (let j = 0; j < scoreGroup[i].length; j++) {
+      if (scoreGroup[i][j] === 'N') {
+        const target = (i - j - 1 + n) % n;
+        console.log(`${group[target]} was nasty about ${group[i]}`);
+        count += 1;
+      }
+    }
+  }
+  if (count === 0) console.log(`Nobody was nasty about Debby`);
+  console.log('\r');
+  count = 0;
+  groupNum += 1;
+  group = [];
+  scoreGroup = [];
+  index = index + n + 1;
 }
