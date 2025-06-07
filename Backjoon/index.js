@@ -5,8 +5,26 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split('\n');
 
-const n = +input[0];
-const group = input[1].trim().split(' ').map(Number);
-const arr = new Array(n);
+for (let i = 0; i < input.length; i++) {
+  let char = input[i].trim();
 
-for (let i = 0; i < group.length; i++) {}
+  if (char === '*') break;
+
+  let isSurprising = true;
+  for (let d = 0; d < char.length; d++) {
+    let hash = new Set();
+    for (let j = 0; j + d + 1 < char.length; j++) {
+      const c = char[j] + char[j + d + 1];
+
+      if (hash.has(c)) {
+        isSurprising = false;
+        break;
+      } else {
+        hash.add(c);
+      }
+    }
+    if (!isSurprising) break;
+  }
+
+  console.log(`${char} is ${isSurprising ? 'surprising.' : 'NOT.'}`);
+}
