@@ -5,26 +5,18 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split('\n');
 
-for (let i = 0; i < input.length; i++) {
-  let char = input[i].trim();
+let N = +input[0];
+let cost = input.slice(1).map(line => line.trim().split(' ').map(Number));
+let dp = Array.from({ length: N }, () => Array(3).fill(0));
 
-  if (char === '*') break;
+dp[0][0] = cost[0][0];
+dp[0][1] = cost[0][1];
+dp[0][2] = cost[0][2];
 
-  let isSurprising = true;
-  for (let d = 0; d < char.length; d++) {
-    let hash = new Set();
-    for (let j = 0; j + d + 1 < char.length; j++) {
-      const c = char[j] + char[j + d + 1];
-
-      if (hash.has(c)) {
-        isSurprising = false;
-        break;
-      } else {
-        hash.add(c);
-      }
-    }
-    if (!isSurprising) break;
-  }
-
-  console.log(`${char} is ${isSurprising ? 'surprising.' : 'NOT.'}`);
+for (let i = 1; i < N; i++) {
+  dp[i][0] = Math.min(dp[i - 1][1], dp[i - 1][2]) + cost[i][0];
+  dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][2]) + cost[i][1];
+  dp[i][2] = Math.min(dp[i - 1][0], dp[i - 1][1]) + cost[i][2];
 }
+
+console.log(Math.min(dp[N - 1][0], dp[N - 1][1], dp[N - 1][2]));
