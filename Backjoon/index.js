@@ -6,17 +6,22 @@ let input = require('fs')
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split('\n');
 
 let N = +input[0];
-let cost = input.slice(1).map(line => line.trim().split(' ').map(Number));
-let dp = Array.from({ length: N }, () => Array(3).fill(0));
 
-dp[0][0] = cost[0][0];
-dp[0][1] = cost[0][1];
-dp[0][2] = cost[0][2];
+let turn = true;
 
-for (let i = 1; i < N; i++) {
-  dp[i][0] = Math.min(dp[i - 1][1], dp[i - 1][2]) + cost[i][0];
-  dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][2]) + cost[i][1];
-  dp[i][2] = Math.min(dp[i - 1][0], dp[i - 1][1]) + cost[i][2];
+let dp = Array(1001).fill(0);
+
+dp[0] = false;
+dp[1] = true;
+dp[2] = false;
+dp[3] = true;
+
+for (let i = 4; i <= N; i++) {
+  if (!dp[i - 1] || !dp[i - 3]) {
+    dp[i] = true;
+  } else {
+    dp[i] = false;
+  }
 }
 
-console.log(Math.min(dp[N - 1][0], dp[N - 1][1], dp[N - 1][2]));
+console.log(dp[N] ? 'SK' : 'CY');
