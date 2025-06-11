@@ -5,16 +5,13 @@ let input = require('fs')
   .split('\n');
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split('\n');
 
-let N = +input[0];
+const N = +input[0];
+let dp = Array(1001).fill(false);
 
-let turn = true;
-
-let dp = Array(1001).fill(0);
-
-dp[0] = false;
-dp[1] = true;
-dp[2] = false;
-dp[3] = true;
+dp[0] = true;
+dp[1] = false;
+dp[2] = true;
+dp[3] = false;
 
 for (let i = 4; i <= N; i++) {
   if (!dp[i - 1] || !dp[i - 3]) {
