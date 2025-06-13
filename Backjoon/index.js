@@ -6,19 +6,13 @@ let input = require('fs')
 // let input = require("fs").readFileSync("/dev/stdin").toString().trim().split('\n');
 
 const N = +input[0];
-let dp = Array(1001).fill(false);
 
-dp[0] = true;
-dp[1] = false;
-dp[2] = true;
-dp[3] = false;
+let a = 1,
+  b = 0;
 
-for (let i = 4; i <= N; i++) {
-  if (!dp[i - 1] || !dp[i - 3]) {
-    dp[i] = true;
-  } else {
-    dp[i] = false;
-  }
+for (let i = 0; i < N; i++) {
+  let temp = a;
+  a = b;
+  b = temp + b;
 }
-
-console.log(dp[N] ? 'SK' : 'CY');
+console.log(a, b);
